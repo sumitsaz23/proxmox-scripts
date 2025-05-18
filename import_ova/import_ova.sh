@@ -34,7 +34,29 @@ template_dir="${4:-/var/lib/vz/import}"  # Working directory (default)
 # ---------------------------
 base_name="${ova_file%.*}"                                          # Strip extension for reuse
 
-# Try to find VMDK or VHD file
+# ---------------------------
+# Change to working directory
+# ---------------------------
+echo "-> Changing to directory: ${template_dir}"
+cd "${template_dir}" || {
+  echo "Error: Cannot cd to ${template_dir}" >&2
+  exit 1
+}
+
+# ---------------------------
+# Extract the OVA archive
+# ---------------------------
+echo "-> Extracting OVA: ${ova_file}"
+tar -xf "${ova_file}" || {
+  echo "Error: Failed to extract ${ova_file}" >&2
+  exit 1
+}
+
+
+# ---------------------------
+# ry to find VMDK or VHD file
+# ---------------------------
+
 cd "${template_dir}" || {
   echo "Error: Cannot cd to ${template_dir}" >&2
   exit 1
@@ -56,24 +78,6 @@ fi
 
 qcow2_image="${base_name}.qcow2"       # Converted QCOW2 filename
 disk_name="vm-${vm_id}-disk-0"        # Proxmox disk identifier
-
-# ---------------------------
-# Change to working directory
-# ---------------------------
-echo "-> Changing to directory: ${template_dir}"
-cd "${template_dir}" || {
-  echo "Error: Cannot cd to ${template_dir}" >&2
-  exit 1
-}
-
-# ---------------------------
-# Extract the OVA archive
-# ---------------------------
-echo "-> Extracting OVA: ${ova_file}"
-tar -xf "${ova_file}" || {
-  echo "Error: Failed to extract ${ova_file}" >&2
-  exit 1
-}
 
 # ---------------------------
 # Convert disk image to QCOW2
