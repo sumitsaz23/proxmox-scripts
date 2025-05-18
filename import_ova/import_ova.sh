@@ -55,7 +55,7 @@ fi
 #vmdk_image=$(ls ${base_name}*.vmdk 2>/dev/null | head -n 1)         # Disk image inside OVA (change extension if needed)
 
 qcow2_image="${base_name}.qcow2"       # Converted QCOW2 filename
-disk_name="vm-${vm_id}-disk-1"        # Proxmox disk identifier
+disk_name="vm-${vm_id}-disk-0"        # Proxmox disk identifier
 
 # ---------------------------
 # Change to working directory
