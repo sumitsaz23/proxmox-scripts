@@ -32,9 +32,9 @@ template_dir="${4:-/var/lib/vz/import}"  # Working directory (default)
 # ---------------------------
 # Derive base name and related filenames
 # ---------------------------
-base_name="${ova_file%.*}"           # Strip extension for reuse
-vmdk_image="${base_name}.vmdk"        # Disk image inside OVA (change extension if needed)
-qcow2_image="${base_name}.qcow2"      # Converted QCOW2 filename
+base_name="${ova_file%.*}"                                          # Strip extension for reuse
+vmdk_image=$(ls ${base_name}*.vmdk 2>/dev/null | head -n 1)         # Disk image inside OVA (change extension if needed)
+qcow2_image="${base_name}.qcow2"       # Converted QCOW2 filename
 disk_name="vm-${vm_id}-disk-1"        # Proxmox disk identifier
 
 # ---------------------------
