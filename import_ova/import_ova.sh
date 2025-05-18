@@ -92,7 +92,10 @@ qm create "${vm_id}" \
   --name "${base_name}" \
   --memory 2048 \
   --cores 2 \
-  --net0 virtio,bridge=vmbr0 || {
+  --net0 virtio,bridge=vmbr0 \
+  --scsihw virtio-scsi-pci \
+  --boot c \
+  --bootdisk scsi0 || {
   echo "Error: qm create failed" >&2
   exit 1
 }
