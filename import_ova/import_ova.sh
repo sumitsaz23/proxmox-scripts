@@ -76,12 +76,15 @@ fi
 
 #vmdk_image=$(ls ${base_name}*.vmdk 2>/dev/null | head -n 1)         # Disk image inside OVA (change extension if needed)
 
-qcow2_image="${base_name}.qcow2"       # Converted QCOW2 filename
-disk_name="vm-${vm_id}-disk-0"        # Proxmox disk identifier
+
 
 # ---------------------------
 # Convert disk image to QCOW2
 # ---------------------------
+qcow2_image="${base_name}.qcow2"       # Converted QCOW2 filename
+disk_name="vm-${vm_id}-disk-0"        # Proxmox disk identifier
+
+
 echo "-> Converting ${disk_image} to ${qcow2_image}"
 qemu-img convert -f "${format}" -O qcow2 "${disk_image}" "${qcow2_image}" || {
   echo "Error: Conversion from ${format} to QCOW2 failed" >&2
