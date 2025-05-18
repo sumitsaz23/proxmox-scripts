@@ -26,7 +26,7 @@ fi
 # ---------------------------
 ova_file="$1"                        # Full OVA filename
 vm_id="$2"                           # Proxmox VM ID for create/import
-storage="${3:-hdd-vm-data}"           # Proxmox storage target (default)
+storage="${3:-local-lvm}"           # Proxmox storage target (default)
 template_dir="${4:-/var/lib/vz/import}"  # Working directory (default)
 
 # ---------------------------
