@@ -34,7 +34,7 @@ This script streamlines the process of provisioning a VM in Proxmox from an OVA 
 | ---------------- | ------------------------------------------------------------------------------------------------- |
 | `<OVA_FILE>`     | Full OVA filename (including the `.ova` extension)                                                |
 | `<VM_ID>`        | Proxmox VM ID to create and import the disk into                                                  |
-| `[STORAGE]`      | (Optional) Proxmox storage target for the disk (default: `hdd-vm-data`)                           |
+| `[STORAGE]`      | (Optional) Proxmox storage target for the disk (default: `local-lvm`)                           |
 | `[TEMPLATE_DIR]` | (Optional) Directory containing the OVA file and generated images (default: `/var/lib/vz/import`) |
 
 ---
