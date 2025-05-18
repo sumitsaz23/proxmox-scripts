@@ -33,7 +33,27 @@ template_dir="${4:-/var/lib/vz/import}"  # Working directory (default)
 # Derive base name and related filenames
 # ---------------------------
 base_name="${ova_file%.*}"                                          # Strip extension for reuse
-vmdk_image=$(ls ${base_name}*.vmdk 2>/dev/null | head -n 1)         # Disk image inside OVA (change extension if needed)
+
+# Try to find VMDK or VHD file
+cd "${template_dir}" || {
+  echo "Error: Cannot cd to ${template_dir}" >&2
+  exit 1
+}
+
+disk_image=$(ls ${base_name}*.vmdk 2>/dev/null | head -n 1)
+format="vmdk"
+if [ -z "$disk_image" ]; then
+  disk_image=$(ls ${base_name}*.vhd 2>/dev/null | head -n 1)
+  format="vpc"
+fi
+
+if [ -z "$disk_image" ]; then
+  echo "Error: No disk image found matching ${base_name}*.vmdk or *.vhd" >&2
+  exit 1
+fi
+
+#vmdk_image=$(ls ${base_name}*.vmdk 2>/dev/null | head -n 1)         # Disk image inside OVA (change extension if needed)
+
 qcow2_image="${base_name}.qcow2"       # Converted QCOW2 filename
 disk_name="vm-${vm_id}-disk-1"        # Proxmox disk identifier
 
@@ -58,9 +78,9 @@ tar -xf "${ova_file}" || {
 # ---------------------------
 # Convert disk image to QCOW2
 # ---------------------------
-echo "-> Converting ${vmdk_image} to ${qcow2_image}"
-qemu-img convert -f vpc -O qcow2 "${vmdk_image}" "${qcow2_image}" || {
-  echo "Error: Conversion from VPC to QCOW2 failed" >&2
+echo "-> Converting ${disk_image} to ${qcow2_image}"
+qemu-img convert -f "${format}" -O qcow2 "${disk_image}" "${qcow2_image}" || {
+  echo "Error: Conversion from ${format} to QCOW2 failed" >&2
   exit 1
 }
 
