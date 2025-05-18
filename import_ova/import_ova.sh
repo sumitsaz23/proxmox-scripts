@@ -54,7 +54,7 @@ tar -xf "${ova_file}" || {
 
 
 # ---------------------------
-# ry to find VMDK or VHD file
+# Try to find VMDK or VHD file
 # ---------------------------
 
 cd "${template_dir}" || {
